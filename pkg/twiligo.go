@@ -8,7 +8,7 @@ import (
 
 const baseURL string = "https://api.twilio.com/2010-04-01"
 
-// Exception ...
+// Exception represents an exception / bad response from the Twilio REST API.
 type Exception struct {
 	Status   int    `json:"status"`
 	Message  string `json:"message"`
@@ -16,24 +16,24 @@ type Exception struct {
 	MoreInfo string `json:"more_info"`
 }
 
-// Twilio ...
+// Twilio holds the necessary important information for connecting to the Twilio REST API.
 type Twilio struct {
 	AccountSid string
 	AuthToken  string
 	HTTPClient *http.Client
 }
 
-// Error ...
+// Error will print the current exception as a string.
 func (e Exception) Error() string {
 	return e.Message
 }
 
-// New ...
+// New creates a new instance of Twilio using the given Account SID and Auth Token.
 func New(accountSid, authToken string) *Twilio {
 	return NewCustomClient(accountSid, authToken, nil)
 }
 
-// NewCustomClient ...
+// NewCustomClient creates a new instance of Twilio using the given Account SID, Auth Token and HTTP Client.
 func NewCustomClient(accountSid, authToken string, HTTPClient *http.Client) *Twilio {
 	if HTTPClient == nil {
 		HTTPClient = &http.Client{Timeout: time.Second * 30}

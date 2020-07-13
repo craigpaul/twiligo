@@ -7,14 +7,14 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// ...
+// This constant is used to represent a type of phone number to look up from Twilio.
 const (
 	Local PhoneNumberType = iota
 	TollFree
 	Mobile
 )
 
-// AvailablePhoneNumber ...
+// AvailablePhoneNumber represents a Twilio phone number that is currently available to be purchased.
 type AvailablePhoneNumber struct {
 	AddressRequirements string `json:"address_requirements"`
 	Beta                bool   `json:"beta"`
@@ -34,21 +34,21 @@ type AvailablePhoneNumber struct {
 	Region       string `json:"region"`
 }
 
-// AvailablePhoneNumbersResponse ...
+// AvailablePhoneNumbersResponse is the representation of the JSON response from Twilio when looking up available phone numbers.
 type AvailablePhoneNumbersResponse struct {
 	AvailablePhoneNumbers []*AvailablePhoneNumber `json:"available_phone_numbers"`
 }
 
-// GetAvailablePhoneNumberOptions ...
+// GetAvailablePhoneNumberOptions are all of the options that can be provided to a GetAvailablePhoneNumbers call.
 type GetAvailablePhoneNumberOptions struct {
 	Page     int `url:",omitempty"`
 	PageSize int `url:",omitempty"`
 }
 
-// PhoneNumberType ...
+// PhoneNumberType is used to define whether a phone number is local, toll-free or mobile.
 type PhoneNumberType int
 
-// GetAvailablePhoneNumbers ...
+// GetAvailablePhoneNumbers retrieves a listing of available phone numbers from Twilio.
 func (twilio *Twilio) GetAvailablePhoneNumbers(country string, number PhoneNumberType, options GetAvailablePhoneNumberOptions) (*AvailablePhoneNumbersResponse, error) {
 	resource := country + "/" + number.String()
 
