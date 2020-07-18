@@ -9,20 +9,20 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// ...
+// This constant is used to represent the type of number selection behaviour that the ProxyService should utilize.
 const (
 	AvoidSticky NumberSelectionBehaviour = iota + 1
 	PreferSticky
 )
 
-// ...
+// This constant is used to represent the matching level for where a proxy number must be located relative to a given participant.
 const (
 	AreaCode GeoMatchLevel = iota + 1
 	Country
 	ExtendedAreaCode
 )
 
-// CreateNewProxyServiceOptions ...
+// CreateNewProxyServiceOptions are all of the options that can be provided to a CreateNewProxyService call.
 type CreateNewProxyServiceOptions struct {
 	CallbackURL              string                   `url:"CallbackUrl,omitempty"`
 	ChatInstanceSid          string                   `url:",omitempty"`
@@ -33,13 +33,13 @@ type CreateNewProxyServiceOptions struct {
 	OutOfSessionCallbackURL  string                   `url:"OutOfSessionCallbackUrl,omitempty"`
 }
 
-// GeoMatchLevel ...
+// GeoMatchLevel is used to define what matching level a ProxyService should implement for any given phone number belonging to the ProxyService.
 type GeoMatchLevel int
 
-// NumberSelectionBehaviour ...
+// NumberSelectionBehaviour is used to define what number selection behaviour a ProxyService should implement for any given phone number belonging to the ProxyService.
 type NumberSelectionBehaviour int
 
-// ProxyService ...
+// ProxyService represents a Twilio Proxy Service that owns one or more proxy phone numbers, sessions, etc.
 type ProxyService struct {
 	Sid                      string    `json:"sid"`
 	AccountSid               string    `json:"account_sid"`
@@ -61,7 +61,7 @@ type ProxyService struct {
 	} `json:"links"`
 }
 
-// CreateNewProxyService ...
+// CreateNewProxyService creates a new proxy service in Twilio.
 func (twilio *Twilio) CreateNewProxyService(name string, options CreateNewProxyServiceOptions) (*ProxyService, error) {
 	params, err := query.Values(options)
 
