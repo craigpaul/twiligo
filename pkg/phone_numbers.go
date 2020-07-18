@@ -41,8 +41,25 @@ type AvailablePhoneNumbersResponse struct {
 
 // GetAvailablePhoneNumberOptions are all of the options that can be provided to a GetAvailablePhoneNumbers call.
 type GetAvailablePhoneNumberOptions struct {
-	Page     int `url:",omitempty"`
-	PageSize int `url:",omitempty"`
+	AreaCode                      int    `url:",omitempty"`
+	Beta                          *bool  `url:",omitempty"`
+	Contains                      string `url:",omitempty"`
+	Distance                      int    `url:",omitempty"`
+	ExcludeAllAddressRequired     *bool  `url:",omitempty"`
+	ExcludeForeignAddressRequired *bool  `url:",omitempty"`
+	ExcludeLocalAddressRequired   *bool  `url:",omitempty"`
+	InLata                        string `url:",omitempty"`
+	InLocality                    string `url:",omitempty"`
+	InPostalCode                  string `url:",omitempty"`
+	InRateCenter                  string `url:",omitempty"`
+	InRegion                      string `url:",omitempty"`
+	MmsEnabled                    *bool  `url:",omitempty"`
+	NearLatLong                   string `url:",omitempty"`
+	NearNumber                    string `url:",omitempty"`
+	Page                          int    `url:",omitempty"`
+	PageSize                      int    `url:",omitempty"`
+	SmsEnabled                    *bool  `url:",omitempty"`
+	VoiceEnabled                  *bool  `url:",omitempty"`
 }
 
 // PhoneNumberType is used to define whether a phone number is local, toll-free or mobile.

@@ -145,6 +145,11 @@ func TestWillIncludeProperQueryParametersWhenMakingRequestToGetAvailablePhoneNum
 	twilio := NewTestTwilio(func(req *http.Request) *http.Response {
 		params := req.URL.Query()
 
+		if params.Get("MmsEnabled") != "false" {
+			t.Logf("Incorrect query parameter supplied, expecting [%s], but received [%s]", "false", params.Get("MmsEnabled"))
+			t.Fail()
+		}
+
 		if params.Get("Page") != "2" {
 			t.Logf("Incorrect query parameter supplied, expecting [%s], but received [%s]", "2", params.Get("Page"))
 			t.Fail()
@@ -155,6 +160,11 @@ func TestWillIncludeProperQueryParametersWhenMakingRequestToGetAvailablePhoneNum
 			t.Fail()
 		}
 
+		if params.Get("SmsEnabled") != "true" {
+			t.Logf("Incorrect query parameter supplied, expecting [%s], but received [%s]", "true", params.Get("SmsEnabled"))
+			t.Fail()
+		}
+
 		return &http.Response{
 			Body:       ioutil.NopCloser(bytes.NewBufferString(okResponse)),
 			StatusCode: http.StatusOK,
@@ -162,9 +172,14 @@ func TestWillIncludeProperQueryParametersWhenMakingRequestToGetAvailablePhoneNum
 		}
 	})
 
+	mmsEnabled := false
+	smsEnabled := true
+
 	twilio.GetAvailablePhoneNumbers("CA", twiligo.Mobile, twiligo.GetAvailablePhoneNumberOptions{
-		Page:     2,
-		PageSize: 50,
+		MmsEnabled: &mmsEnabled,
+		Page:       2,
+		PageSize:   50,
+		SmsEnabled: &smsEnabled,
 	})
 }
 
