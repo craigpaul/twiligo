@@ -9,7 +9,7 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// CreateNewIncomingPhoneNumberOptions ...
+// CreateNewIncomingPhoneNumberOptions are all of the options that can be provided to a CreateNewIncomingPhoneNumber call.
 type CreateNewIncomingPhoneNumberOptions struct {
 	AddressSid           string `url:",omitempty"`
 	AreaCode             string `url:",omitempty"`
@@ -35,7 +35,7 @@ type CreateNewIncomingPhoneNumberOptions struct {
 	VoiceURL             string `url:"VoiceUrl,omitempty"`
 }
 
-// IncomingPhoneNumber ...
+// IncomingPhoneNumber represents a phone number purchased from Twilio.
 type IncomingPhoneNumber struct {
 	AccountSid          string  `json:"account_sid"`
 	AddressRequirements string  `json:"address_requirements"`
@@ -76,7 +76,7 @@ type IncomingPhoneNumber struct {
 	VoiceURL             *string `json:"voice_url"`
 }
 
-// CreateNewIncomingPhoneNumber ...
+// CreateNewIncomingPhoneNumber purchases a new phone number in Twilio.
 func (twilio *Twilio) CreateNewIncomingPhoneNumber(options CreateNewIncomingPhoneNumberOptions) (*IncomingPhoneNumber, error) {
 	params, err := query.Values(options)
 
