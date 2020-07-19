@@ -6,12 +6,12 @@ import (
 	"time"
 )
 
-// Rfc2822Time ...
+// Rfc2822Time is meant to allow access to time.Time but successfully parse the RFC 2822 date format into a struct easily.
 type Rfc2822Time struct {
 	time.Time
 }
 
-// UnmarshalJSON ...
+// UnmarshalJSON handles converting a string that is hopefully in the RFC 2822 date format into a usable struct with access to the time.Time functions.
 func (t *Rfc2822Time) UnmarshalJSON(b []byte) error {
 	s := strings.Trim(string(b), `"`)
 	format := "Mon, 02 Jan 2006 15:04:05 -0700"
@@ -26,7 +26,7 @@ func (t *Rfc2822Time) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-// MarshalJSON ...
+// MarshalJSON handles converting a Rfc2822Time struct into the proper string representation when being serialized to JSON.
 func (t Rfc2822Time) MarshalJSON() ([]byte, error) {
 	return []byte(t.String()), nil
 }
