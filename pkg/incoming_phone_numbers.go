@@ -125,7 +125,7 @@ func (twilio *Twilio) CreateNewIncomingPhoneNumber(options CreateNewIncomingPhon
 	return response, nil
 }
 
-// DeleteIncomingPhoneNumber ...
+// DeleteIncomingPhoneNumber will release an existing IncomingPhoneNumber from Twilio.
 func (twilio *Twilio) DeleteIncomingPhoneNumber(sid string) error {
 	req, err := http.NewRequest(http.MethodDelete, twilio.url("IncomingPhoneNumbers/"+sid+".json"), nil)
 
