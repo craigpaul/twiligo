@@ -36,45 +36,48 @@ type CreateNewIncomingPhoneNumberOptions struct {
 	VoiceURL             string `url:"VoiceUrl,omitempty"`
 }
 
+// IncomingPhoneNumberCapabilities describes the capabilities afforded to a given IncomingPhoneNumber according to Twilio.
+type IncomingPhoneNumberCapabilities struct {
+	MMS   bool `json:"mms"`
+	SMS   bool `json:"sms"`
+	Voice bool `json:"voice"`
+}
+
 // IncomingPhoneNumber represents a phone number purchased from Twilio.
 type IncomingPhoneNumber struct {
-	AccountSid          string  `json:"account_sid"`
-	AddressRequirements string  `json:"address_requirements"`
-	AddressSid          *string `json:"address_sid"`
-	APIVersion          string  `json:"api_version"`
-	Beta                bool    `json:"beta"`
-	BundleSid           *string `json:"bundle_sid"`
-	Capabilities        struct {
-		MMS   bool `json:"mms"`
-		SMS   bool `json:"sms"`
-		Voice bool `json:"voice"`
-	} `json:"capabilities"`
-	DateCreated          dates.Rfc2822Time `json:"date_created"`
-	DateUpdated          dates.Rfc2822Time `json:"date_updated"`
-	EmergencyAddressSid  *string           `json:"emergency_address_sid"`
-	EmergencyStatus      string            `json:"emergency_status"`
-	FriendlyName         string            `json:"friendly_name"`
-	IdentitySid          *string           `json:"identity_sid"`
-	Origin               string            `json:"origin"`
-	PhoneNumber          string            `json:"phone_number"`
-	Sid                  string            `json:"sid"`
-	SmsApplicationSid    *string           `json:"sms_application_sid"`
-	SmsFallbackMethod    string            `json:"sms_fallback_method"`
-	SmsFallbackURL       *string           `json:"sms_fallback_url"`
-	SmsMethod            string            `json:"sms_method"`
-	SmsURL               *string           `json:"sms_url"`
-	Status               string            `json:"status"`
-	StatusCallback       *string           `json:"status_callback"`
-	StatusCallbackMethod string            `json:"status_callback_method"`
-	TrunkSid             *string           `json:"trunk_sid"`
-	URI                  string            `json:"uri"`
-	VoiceApplicationSid  *string           `json:"voice_application_sid"`
-	VoiceCallerIDLookup  bool              `json:"voice_caller_id_lookup"`
-	VoiceFallbackMethod  string            `json:"voice_fallback_method"`
-	VoiceFallbackURL     *string           `json:"voice_fallback_url"`
-	VoiceMethod          string            `json:"voice_method"`
-	VoiceReceiveMode     string            `json:"voice_receive_mode"`
-	VoiceURL             *string           `json:"voice_url"`
+	AccountSid           string                          `json:"account_sid"`
+	AddressRequirements  string                          `json:"address_requirements"`
+	AddressSid           *string                         `json:"address_sid"`
+	APIVersion           string                          `json:"api_version"`
+	Beta                 bool                            `json:"beta"`
+	BundleSid            *string                         `json:"bundle_sid"`
+	Capabilities         IncomingPhoneNumberCapabilities `json:"capabilities"`
+	DateCreated          dates.Rfc2822Time               `json:"date_created"`
+	DateUpdated          dates.Rfc2822Time               `json:"date_updated"`
+	EmergencyAddressSid  *string                         `json:"emergency_address_sid"`
+	EmergencyStatus      string                          `json:"emergency_status"`
+	FriendlyName         string                          `json:"friendly_name"`
+	IdentitySid          *string                         `json:"identity_sid"`
+	Origin               string                          `json:"origin"`
+	PhoneNumber          string                          `json:"phone_number"`
+	Sid                  string                          `json:"sid"`
+	SmsApplicationSid    *string                         `json:"sms_application_sid"`
+	SmsFallbackMethod    string                          `json:"sms_fallback_method"`
+	SmsFallbackURL       *string                         `json:"sms_fallback_url"`
+	SmsMethod            string                          `json:"sms_method"`
+	SmsURL               *string                         `json:"sms_url"`
+	Status               string                          `json:"status"`
+	StatusCallback       *string                         `json:"status_callback"`
+	StatusCallbackMethod string                          `json:"status_callback_method"`
+	TrunkSid             *string                         `json:"trunk_sid"`
+	URI                  string                          `json:"uri"`
+	VoiceApplicationSid  *string                         `json:"voice_application_sid"`
+	VoiceCallerIDLookup  bool                            `json:"voice_caller_id_lookup"`
+	VoiceFallbackMethod  string                          `json:"voice_fallback_method"`
+	VoiceFallbackURL     *string                         `json:"voice_fallback_url"`
+	VoiceMethod          string                          `json:"voice_method"`
+	VoiceReceiveMode     string                          `json:"voice_receive_mode"`
+	VoiceURL             *string                         `json:"voice_url"`
 }
 
 // CreateNewIncomingPhoneNumber purchases a new phone number in Twilio.
