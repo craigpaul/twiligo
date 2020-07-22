@@ -59,6 +59,10 @@ func (twilio *Twilio) post(req *http.Request) (*http.Response, error) {
 	return twilio.HTTPClient.Do(req)
 }
 
+func (twilio *Twilio) delete(req *http.Request) (*http.Response, error) {
+	return twilio.HTTPClient.Do(req)
+}
+
 func (twilio *Twilio) proxyURL(resource string) string {
 	return proxyBaseURL + "/" + resource
 }

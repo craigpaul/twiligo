@@ -58,6 +58,13 @@ const errorCreatingIncomingPhoneNumberResponse = `{
 	"status": 400
 }`
 
+const errorDeletingIncomingPhoneNumberResponse = `{
+	"code": 20404,
+	"message": "The request resource was not found",
+	"more_info": "https://www.twilio.com/docs/errors/20404",
+	"status": 404
+}`
+
 func TestWillMakeRequestToCreateNewIncomingNumberSuccessfully(t *testing.T) {
 	twilio := NewTestTwilio(func(req *http.Request) *http.Response {
 		expected := "IncomingPhoneNumbers.json"
@@ -172,6 +179,54 @@ func TestWillNotMakeRequestIfNotSuppliedWithOneOfTheRequiredParametersToCreateNe
 	}
 
 	expected := "Missing required parameter PhoneNumber or AreaCode"
+
+	if err.Error() != expected {
+		t.Logf("Incorrect error returned, expected [%s], but received [%s]", expected, err)
+		t.Fail()
+	}
+}
+
+func TestCanDeleteExistingIncomingPhoneNumberSuccessfully(t *testing.T) {
+	twilio := NewTestTwilio(func(req *http.Request) *http.Response {
+		expected := "IncomingPhoneNumbers/PN123456.json"
+
+		if strings.Contains(req.URL.Path, expected) == false {
+			t.Logf("Incorrect URL supplied, expecting URL to contain [%s], but received [%s]", expected, req.URL.Path)
+			t.Fail()
+		}
+
+		if req.Header.Get("Authorization") == "" {
+			t.Log("Missing authorization credentials, they should be supplied via the Authorization header")
+			t.Fail()
+		}
+
+		return &http.Response{
+			Body:       ioutil.NopCloser(bytes.NewBufferString(``)),
+			StatusCode: http.StatusNoContent,
+			Header:     make(http.Header),
+		}
+	})
+
+	err := twilio.DeleteIncomingPhoneNumber("PN123456")
+
+	if err != nil {
+		t.Logf("Error was incorrectly returned, was not expecting the following error: %s", err)
+		t.Fail()
+	}
+}
+
+func TestWillHandleErrorResponsesWhenMakingRequestToDeleteExistingIncomingNumber(t *testing.T) {
+	twilio := NewTestTwilio(func(req *http.Request) *http.Response {
+		return &http.Response{
+			Body:       ioutil.NopCloser(bytes.NewBufferString(errorDeletingIncomingPhoneNumberResponse)),
+			StatusCode: http.StatusNotFound,
+			Header:     make(http.Header),
+		}
+	})
+
+	err := twilio.DeleteIncomingPhoneNumber("PN123456")
+
+	expected := "The request resource was not found"
 
 	if err.Error() != expected {
 		t.Logf("Incorrect error returned, expected [%s], but received [%s]", expected, err)
