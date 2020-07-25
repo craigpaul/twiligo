@@ -25,7 +25,7 @@ const (
 // CreateNewProxyServiceOptions are all of the options that can be provided to a CreateNewProxyService call.
 type CreateNewProxyServiceOptions struct {
 	CallbackURL              string                   `url:"CallbackUrl,omitempty"`
-	ChatInstanceSid          string                   `url:",omitempty"`
+	ChatInstanceSID          string                   `url:",omitempty"`
 	DefaultTTL               int                      `url:"DefaultTtl,omitempty"`
 	GeoMatchLevel            GeoMatchLevel            `url:",omitempty"`
 	InterceptCallbackURL     string                   `url:"InterceptCallbackUrl,omitempty"`
@@ -41,9 +41,9 @@ type NumberSelectionBehaviour int
 
 // ProxyService represents a Twilio Proxy Service that owns one or more proxy phone numbers, sessions, etc.
 type ProxyService struct {
-	Sid                      string    `json:"sid"`
-	AccountSid               string    `json:"account_sid"`
-	ChatInstanceSid          *string   `json:"chat_instance_sid"`
+	SID                      string    `json:"sid"`
+	AccountSID               string    `json:"account_sid"`
+	ChatInstanceSID          *string   `json:"chat_instance_sid"`
 	UniqueName               string    `json:"unique_name"`
 	DefaultTTL               int       `json:"default_ttl"`
 	CallbackURL              *string   `json:"callback_url"`

@@ -12,23 +12,23 @@ import (
 
 // CreateNewIncomingPhoneNumberOptions are all of the options that can be provided to a CreateNewIncomingPhoneNumber call.
 type CreateNewIncomingPhoneNumberOptions struct {
-	AddressSid           string `url:",omitempty"`
+	AddressSID           string `url:",omitempty"`
 	AreaCode             string `url:",omitempty"`
-	BundleSid            string `url:",omitempty"`
-	EmergencyAddressSid  string `url:",omitempty"`
+	BundleSID            string `url:",omitempty"`
+	EmergencyAddressSID  string `url:",omitempty"`
 	EmergencyStatus      string `url:",omitempty"`
 	FriendlyName         string `url:",omitempty"`
-	IdentitySid          string `url:",omitempty"`
+	IdentitySID          string `url:",omitempty"`
 	PhoneNumber          string `url:",omitempty"`
-	SmsApplicationSid    string `url:",omitempty"`
+	SmsApplicationSID    string `url:",omitempty"`
 	SmsFallbackMethod    string `url:",omitempty"`
 	SmsFallbackURL       string `url:"SmsFallbackUrl,omitempty"`
 	SmsMethod            string `url:",omitempty"`
 	SmsURL               string `url:"SmsUrl,omitempty"`
 	StatusCallback       string `url:",omitempty"`
 	StatusCallbackMethod string `url:",omitempty"`
-	TrunkSid             string `url:",omitempty"`
-	VoiceApplicationSid  string `url:",omitempty"`
+	TrunkSID             string `url:",omitempty"`
+	VoiceApplicationSID  string `url:",omitempty"`
 	VoiceFallbackMethod  string `url:",omitempty"`
 	VoiceFallbackURL     string `url:"VoiceFallbackUrl,omitempty"`
 	VoiceMethod          string `url:"VoiceMethod,omitempty"`
@@ -45,23 +45,23 @@ type IncomingPhoneNumberCapabilities struct {
 
 // IncomingPhoneNumber represents a phone number purchased from Twilio.
 type IncomingPhoneNumber struct {
-	AccountSid           string                          `json:"account_sid"`
+	AccountSID           string                          `json:"account_sid"`
 	AddressRequirements  string                          `json:"address_requirements"`
-	AddressSid           *string                         `json:"address_sid"`
+	AddressSID           *string                         `json:"address_sid"`
 	APIVersion           string                          `json:"api_version"`
 	Beta                 bool                            `json:"beta"`
-	BundleSid            *string                         `json:"bundle_sid"`
+	BundleSID            *string                         `json:"bundle_sid"`
 	Capabilities         IncomingPhoneNumberCapabilities `json:"capabilities"`
 	DateCreated          dates.Rfc2822Time               `json:"date_created"`
 	DateUpdated          dates.Rfc2822Time               `json:"date_updated"`
-	EmergencyAddressSid  *string                         `json:"emergency_address_sid"`
+	EmergencyAddressSID  *string                         `json:"emergency_address_sid"`
 	EmergencyStatus      string                          `json:"emergency_status"`
 	FriendlyName         string                          `json:"friendly_name"`
-	IdentitySid          *string                         `json:"identity_sid"`
+	IdentitySID          *string                         `json:"identity_sid"`
 	Origin               string                          `json:"origin"`
 	PhoneNumber          string                          `json:"phone_number"`
-	Sid                  string                          `json:"sid"`
-	SmsApplicationSid    *string                         `json:"sms_application_sid"`
+	SID                  string                          `json:"sid"`
+	SmsApplicationSID    *string                         `json:"sms_application_sid"`
 	SmsFallbackMethod    string                          `json:"sms_fallback_method"`
 	SmsFallbackURL       *string                         `json:"sms_fallback_url"`
 	SmsMethod            string                          `json:"sms_method"`
@@ -69,9 +69,9 @@ type IncomingPhoneNumber struct {
 	Status               string                          `json:"status"`
 	StatusCallback       *string                         `json:"status_callback"`
 	StatusCallbackMethod string                          `json:"status_callback_method"`
-	TrunkSid             *string                         `json:"trunk_sid"`
+	TrunkSID             *string                         `json:"trunk_sid"`
 	URI                  string                          `json:"uri"`
-	VoiceApplicationSid  *string                         `json:"voice_application_sid"`
+	VoiceApplicationSID  *string                         `json:"voice_application_sid"`
 	VoiceCallerIDLookup  bool                            `json:"voice_caller_id_lookup"`
 	VoiceFallbackMethod  string                          `json:"voice_fallback_method"`
 	VoiceFallbackURL     *string                         `json:"voice_fallback_url"`

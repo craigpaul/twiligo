@@ -13,10 +13,10 @@ func NewTestTwilio(fn RoundTripFunc) *twiligo.Twilio {
 		Transport: RoundTripFunc(fn),
 	}
 
-	accountSid := "123"
+	accountSID := "123"
 	authToken := "456"
 
-	twilio := twiligo.NewCustomClient(accountSid, authToken, client)
+	twilio := twiligo.NewCustomClient(accountSID, authToken, client)
 
 	return twilio
 }

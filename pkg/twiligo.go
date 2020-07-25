@@ -19,7 +19,7 @@ type Exception struct {
 
 // Twilio holds the necessary important information for connecting to the Twilio REST API.
 type Twilio struct {
-	AccountSid string
+	AccountSID string
 	AuthToken  string
 	HTTPClient *http.Client
 }
@@ -30,25 +30,25 @@ func (e Exception) Error() string {
 }
 
 // New creates a new instance of Twilio using the given Account SID and Auth Token.
-func New(accountSid, authToken string) *Twilio {
-	return NewCustomClient(accountSid, authToken, nil)
+func New(accountSID, authToken string) *Twilio {
+	return NewCustomClient(accountSID, authToken, nil)
 }
 
 // NewCustomClient creates a new instance of Twilio using the given Account SID, Auth Token and HTTP Client.
-func NewCustomClient(accountSid, authToken string, HTTPClient *http.Client) *Twilio {
+func NewCustomClient(accountSID, authToken string, HTTPClient *http.Client) *Twilio {
 	if HTTPClient == nil {
 		HTTPClient = &http.Client{Timeout: time.Second * 30}
 	}
 
 	return &Twilio{
-		AccountSid: accountSid,
+		AccountSID: accountSID,
 		AuthToken:  authToken,
 		HTTPClient: HTTPClient,
 	}
 }
 
 func (twilio *Twilio) credentials() (string, string) {
-	return twilio.AccountSid, twilio.AuthToken
+	return twilio.AccountSID, twilio.AuthToken
 }
 
 func (twilio *Twilio) get(req *http.Request) (*http.Response, error) {
@@ -68,5 +68,5 @@ func (twilio *Twilio) proxyURL(resource string) string {
 }
 
 func (twilio *Twilio) url(resource string) string {
-	return baseURL + "/" + path.Join("Accounts", twilio.AccountSid, resource)
+	return baseURL + "/" + path.Join("Accounts", twilio.AccountSID, resource)
 }
