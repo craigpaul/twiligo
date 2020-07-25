@@ -86,8 +86,8 @@ func (twilio *Twilio) AddPhoneNumberToProxyService(service string, options AddPh
 }
 
 // RemovePhoneNumberFromProxyService remove the given IncomingPhoneNumber from the given ProxyService within Twilio.
-func (twilio *Twilio) RemovePhoneNumberFromProxyService(service, number string) error {
-	resource := "Services/" + service + "/PhoneNumbers/" + number
+func (twilio *Twilio) RemovePhoneNumberFromProxyService(serviceSID, phoneNumberSID string) error {
+	resource := "Services/" + serviceSID + "/PhoneNumbers/" + phoneNumberSID
 
 	req, err := http.NewRequest(http.MethodDelete, twilio.proxyURL(resource), nil)
 
