@@ -85,7 +85,7 @@ func (twilio *Twilio) AddPhoneNumberToProxyService(service string, options AddPh
 	return response, nil
 }
 
-// RemovePhoneNumberFromProxyService ...
+// RemovePhoneNumberFromProxyService remove the given IncomingPhoneNumber from the given ProxyService within Twilio.
 func (twilio *Twilio) RemovePhoneNumberFromProxyService(service, number string) error {
 	resource := "Services/" + service + "/PhoneNumbers/" + number
 
