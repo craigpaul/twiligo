@@ -60,14 +60,14 @@ func TestWillMakeRequestToGetAvailableLocalPhoneNumbersSuccessfully(t *testing.T
 		}
 	})
 
-	response, err := twilio.GetAvailablePhoneNumbers("CA", twiligo.Local, twiligo.GetAvailablePhoneNumberOptions{})
+	numbers, err := twilio.GetAvailablePhoneNumbers("CA", twiligo.Local, twiligo.GetAvailablePhoneNumberOptions{})
 
 	if err != nil {
 		t.Logf("Error was incorrectly returned, was not expecting the following error: %s", err)
 		t.Fail()
 	}
 
-	if len(response.AvailablePhoneNumbers) == 0 {
+	if len(numbers) == 0 {
 		t.Log("Did not receive the expected available phone number in the response")
 		t.Fail()
 	}
@@ -94,14 +94,14 @@ func TestWillMakeRequestToGetAvailableTollFreePhoneNumbersSuccessfully(t *testin
 		}
 	})
 
-	response, err := twilio.GetAvailablePhoneNumbers("CA", twiligo.TollFree, twiligo.GetAvailablePhoneNumberOptions{})
+	numbers, err := twilio.GetAvailablePhoneNumbers("CA", twiligo.TollFree, twiligo.GetAvailablePhoneNumberOptions{})
 
 	if err != nil {
 		t.Logf("Error was incorrectly returned, was not expecting the following error: %s", err)
 		t.Fail()
 	}
 
-	if len(response.AvailablePhoneNumbers) == 0 {
+	if len(numbers) == 0 {
 		t.Log("Did not receive the expected available phone number in the response")
 		t.Fail()
 	}
@@ -128,14 +128,14 @@ func TestWillMakeRequestToGetAvailableMobilePhoneNumbersSuccessfully(t *testing.
 		}
 	})
 
-	response, err := twilio.GetAvailablePhoneNumbers("CA", twiligo.Mobile, twiligo.GetAvailablePhoneNumberOptions{})
+	numbers, err := twilio.GetAvailablePhoneNumbers("CA", twiligo.Mobile, twiligo.GetAvailablePhoneNumberOptions{})
 
 	if err != nil {
 		t.Logf("Error was incorrectly returned, was not expecting the following error: %s", err)
 		t.Fail()
 	}
 
-	if len(response.AvailablePhoneNumbers) == 0 {
+	if len(numbers) == 0 {
 		t.Log("Did not receive the expected available phone number in the response")
 		t.Fail()
 	}
@@ -192,10 +192,10 @@ func TestWillHandleErrorResponsesWhenMakingRequestToGetAvailablePhoneNumbers(t *
 		}
 	})
 
-	response, err := twilio.GetAvailablePhoneNumbers("CA", twiligo.Mobile, twiligo.GetAvailablePhoneNumberOptions{})
+	numbers, err := twilio.GetAvailablePhoneNumbers("CA", twiligo.Mobile, twiligo.GetAvailablePhoneNumberOptions{})
 
-	if response != nil {
-		t.Logf("Response was incorrectly returned, was not expecting the following response: %v", response)
+	if numbers != nil {
+		t.Logf("Response was incorrectly returned, was not expecting the following response: %v", numbers)
 		t.Fail()
 	}
 

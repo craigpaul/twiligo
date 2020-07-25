@@ -27,6 +27,7 @@ type AvailablePhoneNumber struct {
 	IsoCountry   string `json:"iso_country"`
 	LATA         string `json:"lata"`
 	Latitude     string `json:"latitude"`
+	Locality     string `json:"locality"`
 	Longitude    string `json:"longitude"`
 	PhoneNumber  string `json:"phone_number"`
 	PostalCode   string `json:"postal_code"`
@@ -66,7 +67,7 @@ type GetAvailablePhoneNumberOptions struct {
 type PhoneNumberType int
 
 // GetAvailablePhoneNumbers retrieves a listing of available phone numbers from Twilio.
-func (twilio *Twilio) GetAvailablePhoneNumbers(country string, number PhoneNumberType, options GetAvailablePhoneNumberOptions) (*AvailablePhoneNumbersResponse, error) {
+func (twilio *Twilio) GetAvailablePhoneNumbers(country string, number PhoneNumberType, options GetAvailablePhoneNumberOptions) ([]*AvailablePhoneNumber, error) {
 	resource := country + "/" + number.String()
 
 	req, err := http.NewRequest(http.MethodGet, twilio.url("AvailablePhoneNumbers/"+resource+".json"), nil)
@@ -107,7 +108,7 @@ func (twilio *Twilio) GetAvailablePhoneNumbers(country string, number PhoneNumbe
 
 	decoder.Decode(&response)
 
-	return response, nil
+	return response.AvailablePhoneNumbers, nil
 }
 
 func (number PhoneNumberType) String() string {
