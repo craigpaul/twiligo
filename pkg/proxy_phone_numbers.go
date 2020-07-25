@@ -9,14 +9,14 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// AddPhoneNumberToProxyServiceOptions ...
+// AddPhoneNumberToProxyServiceOptions are all of the options that can be provided to a AddPhoneNumberToProxyService call.
 type AddPhoneNumberToProxyServiceOptions struct {
 	SID         string `url:"Sid,omitempty"`
 	PhoneNumber string `url:",omitempty"`
 	IsReserved  *bool  `url:",omitempty"`
 }
 
-// ProxyPhoneNumber ...
+// ProxyPhoneNumber represents an IncomingPhoneNumber that has been attached to a ProxyService within Twilio.
 type ProxyPhoneNumber struct {
 	SID          string                       `json:"sid"`
 	AccountSID   string                       `json:"account_sid"`
@@ -32,7 +32,7 @@ type ProxyPhoneNumber struct {
 	InUse        int                          `json:"in_use"`
 }
 
-// ProxyPhoneNumberCapabilities ...
+// ProxyPhoneNumberCapabilities describes the capabilities afforded to a given ProxyPhoneNumber according to Twilio.
 type ProxyPhoneNumberCapabilities struct {
 	MMSInbound    bool `json:"mms_inbound"`
 	MMSOutbound   bool `json:"mms_outbound"`
@@ -42,7 +42,7 @@ type ProxyPhoneNumberCapabilities struct {
 	VoiceOutbound bool `json:"voice_outbound"`
 }
 
-// AddPhoneNumberToProxyService ...
+// AddPhoneNumberToProxyService attaches a phone number to the given proxy service in Twilio.
 func (twilio *Twilio) AddPhoneNumberToProxyService(service string, options AddPhoneNumberToProxyServiceOptions) (*ProxyPhoneNumber, error) {
 	params, err := query.Values(options)
 
