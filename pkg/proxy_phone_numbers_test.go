@@ -40,6 +40,13 @@ const alreadyAddedToServiceResponse = `{
 	"status": 400
 }`
 
+const errorRemovingPhoneNumberFromProxyServiceResponse = `{
+	"code": 20404,
+	"message": "The request resource was not found",
+	"more_info": "https://www.twilio.com/docs/errors/20404",
+	"status": 404
+}`
+
 func TestWillMakeRequestToAddPhoneNumberToExistingProxyServiceSuccessfully(t *testing.T) {
 	twilio := NewTestTwilio(func(req *http.Request) *http.Response {
 		expected := "Services/KS123/PhoneNumbers"
@@ -129,6 +136,54 @@ func TestWillHandleErrorResponsesWhenMakingRequestToAddPhoneNumberToExistingProx
 	}
 
 	expected := "PhoneNumber has already been added to Service"
+
+	if err.Error() != expected {
+		t.Logf("Incorrect error returned, expected [%s], but received [%s]", expected, err)
+		t.Fail()
+	}
+}
+
+func TestCanRemovePhoneNumberFromProxyServiceSuccessfully(t *testing.T) {
+	twilio := NewTestTwilio(func(req *http.Request) *http.Response {
+		expected := "Services/KS123/PhoneNumbers/PN123"
+
+		if strings.Contains(req.URL.Path, expected) == false {
+			t.Logf("Incorrect URL supplied, expecting URL to contain [%s], but received [%s]", expected, req.URL.Path)
+			t.Fail()
+		}
+
+		if req.Header.Get("Authorization") == "" {
+			t.Log("Missing authorization credentials, they should be supplied via the Authorization header")
+			t.Fail()
+		}
+
+		return &http.Response{
+			Body:       ioutil.NopCloser(bytes.NewBufferString(``)),
+			StatusCode: http.StatusNoContent,
+			Header:     make(http.Header),
+		}
+	})
+
+	err := twilio.RemovePhoneNumberFromProxyService("KS123", "PN123")
+
+	if err != nil {
+		t.Logf("Error was incorrectly returned, was not expecting the following error: %s", err)
+		t.Fail()
+	}
+}
+
+func TestWillHandleErrorResponsesWhenMakingRequestToRemovePhoneNumberFromProxyService(t *testing.T) {
+	twilio := NewTestTwilio(func(req *http.Request) *http.Response {
+		return &http.Response{
+			Body:       ioutil.NopCloser(bytes.NewBufferString(errorRemovingPhoneNumberFromProxyServiceResponse)),
+			StatusCode: http.StatusNotFound,
+			Header:     make(http.Header),
+		}
+	})
+
+	err := twilio.RemovePhoneNumberFromProxyService("KS123", "PN123")
+
+	expected := "The request resource was not found"
 
 	if err.Error() != expected {
 		t.Logf("Incorrect error returned, expected [%s], but received [%s]", expected, err)

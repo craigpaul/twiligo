@@ -84,3 +84,36 @@ func (twilio *Twilio) AddPhoneNumberToProxyService(service string, options AddPh
 
 	return response, nil
 }
+
+// RemovePhoneNumberFromProxyService remove the given IncomingPhoneNumber from the given ProxyService within Twilio.
+func (twilio *Twilio) RemovePhoneNumberFromProxyService(serviceSID, phoneNumberSID string) error {
+	resource := "Services/" + serviceSID + "/PhoneNumbers/" + phoneNumberSID
+
+	req, err := http.NewRequest(http.MethodDelete, twilio.proxyURL(resource), nil)
+
+	if err != nil {
+		return err
+	}
+
+	req.SetBasicAuth(twilio.credentials())
+
+	res, err := twilio.delete(req)
+
+	if err != nil {
+		return nil
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusNoContent {
+		decoder := json.NewDecoder(res.Body)
+
+		err = new(Exception)
+
+		decoder.Decode(err)
+
+		return err
+	}
+
+	return nil
+}
