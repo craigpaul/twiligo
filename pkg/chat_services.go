@@ -9,7 +9,7 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// ChatService ...
+// ChatService represents a Twilio Chat service that owns one or more channels, users, messages, etc.
 type ChatService struct {
 	AccountSID                   string    `json:"account_sid"`
 	DateCreated                  time.Time `json:"date_created"`
@@ -64,7 +64,7 @@ type createNewChatServiceOptions struct {
 	FriendlyName string
 }
 
-// CreateNewChatService ...
+// CreateNewChatService creates a new chat service in Twilio.
 func (twilio *Twilio) CreateNewChatService(name string) (*ChatService, error) {
 	params, err := query.Values(createNewChatServiceOptions{FriendlyName: name})
 
