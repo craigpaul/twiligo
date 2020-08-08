@@ -206,3 +206,23 @@ func TestWillHandleErrorResponsesWhenMakingRequestToGetAvailablePhoneNumbers(t *
 		t.Fail()
 	}
 }
+
+func TestWillConvertGivenNumberTypeAndCountryToMatchingPhoneNumberTypeToPrevent404ErrorsThroughTwilioAPI(t *testing.T) {
+	cases := map[string]map[twiligo.PhoneNumberType]twiligo.PhoneNumberType{
+		"CA": {twiligo.Mobile: twiligo.Local},
+		"US": {twiligo.Mobile: twiligo.Local},
+		"FR": {twiligo.Mobile: twiligo.Mobile, twiligo.Local: twiligo.Local},
+	}
+
+	twilio := twiligo.New("123", "456")
+
+	for country, values := range cases {
+		for given, expected := range values {
+			numberType := twilio.GetPhoneNumberType(int(given), country)
+
+			if numberType != expected {
+				t.Logf("Incorrect number type returned, expected [%s], but received [%s]", expected, numberType)
+			}
+		}
+	}
+}

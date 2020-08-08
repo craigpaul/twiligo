@@ -111,6 +111,17 @@ func (twilio *Twilio) GetAvailablePhoneNumbers(country string, number PhoneNumbe
 	return response.AvailablePhoneNumbers, nil
 }
 
+// GetPhoneNumberType will convert a given integer into a PhoneNumberType by the given country. Certain countries do not support all PhoneNumberType values, so this function can be used as a safe mapping based on the values from this document https://support.twilio.com/hc/en-us/articles/223183068-Twilio-international-phone-number-availability-and-their-capabilities. Note: Not all cases are currently supported, but can be amended as necessary.
+func (twilio *Twilio) GetPhoneNumberType(number int, country string) PhoneNumberType {
+	numberType := PhoneNumberType(number)
+
+	if (country == "CA" || country == "US") && numberType == Mobile {
+		numberType = Local
+	}
+
+	return numberType
+}
+
 func (number PhoneNumberType) String() string {
 	return map[PhoneNumberType]string{
 		Local:    "Local",
