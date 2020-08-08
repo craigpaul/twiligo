@@ -111,6 +111,17 @@ func (twilio *Twilio) GetAvailablePhoneNumbers(country string, number PhoneNumbe
 	return response.AvailablePhoneNumbers, nil
 }
 
+// GetPhoneNumberType ...
+func (twilio *Twilio) GetPhoneNumberType(number int, country string) PhoneNumberType {
+	numberType := PhoneNumberType(number)
+
+	if (country == "CA" || country == "US") && numberType == Mobile {
+		numberType = Local
+	}
+
+	return numberType
+}
+
 func (number PhoneNumberType) String() string {
 	return map[PhoneNumberType]string{
 		Local:    "Local",
