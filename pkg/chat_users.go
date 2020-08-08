@@ -9,7 +9,7 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// ChatUser ...
+// ChatUser represents a Twilio Chat user identified by their unique Identity property within Twilio.
 type ChatUser struct {
 	SID                 string    `json:"sid"`
 	AccountSID          string    `json:"account_sid"`
@@ -30,14 +30,14 @@ type ChatUser struct {
 	URL string `json:"url"`
 }
 
-// CreateNewChatUserOptions ...
+// CreateNewChatUserOptions are all of the options that can be provided to a CreateNewChatUser call.
 type CreateNewChatUserOptions struct {
 	RoleSID      string `url:"RoleSid,omitempty"`
 	Attributes   string `url:",omitempty"`
 	FriendlyName string `url:",omitempty"`
 }
 
-// CreateNewChatUser ...
+// CreateNewChatUser creates a new chat user for the given chat service in Twilio.
 func (twilio *Twilio) CreateNewChatUser(identity, serviceSID string, options CreateNewChatUserOptions) (*ChatUser, error) {
 	params, err := query.Values(options)
 
