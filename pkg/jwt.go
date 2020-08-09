@@ -7,7 +7,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-// AccessToken ...
+// AccessToken holds the necessary important information for encoding a JWT to use with various Twilio services.
 type AccessToken struct {
 	AccountSID    string
 	Grants        []Grant
@@ -17,18 +17,18 @@ type AccessToken struct {
 	TTL           int
 }
 
-// ChatGrant ...
+// ChatGrant represents a specific type of Grant that is necessary to use Twilio's Programmable Chat.
 type ChatGrant struct {
 	ServiceSID *string
 }
 
-// Grant ...
+// Grant represents a type of permission that can be attached to an AccessToken.
 type Grant interface {
 	GetKey() string
 	GetPayload() map[string]string
 }
 
-// NewAccessTokenOptions ...
+// NewAccessTokenOptions represents the possible options that can be provided to a new AccessToken.
 type NewAccessTokenOptions struct {
 	AccountSID    string
 	Identity      *string
@@ -37,12 +37,12 @@ type NewAccessTokenOptions struct {
 	TTL           int
 }
 
-// NewChatGrantOptions ...
+// NewChatGrantOptions represents the possible options that can be provided to a new ChatGrant.
 type NewChatGrantOptions struct {
 	ServiceSID *string
 }
 
-// NewAccessToken ...
+// NewAccessToken creates a new AccessToken with the given options.
 func NewAccessToken(options NewAccessTokenOptions) AccessToken {
 	return AccessToken{
 		AccountSID:    options.AccountSID,
@@ -53,19 +53,19 @@ func NewAccessToken(options NewAccessTokenOptions) AccessToken {
 	}
 }
 
-// NewChatGrant ...
+// NewChatGrant creates a new ChatGrant with the given options.
 func NewChatGrant(options NewChatGrantOptions) ChatGrant {
 	return ChatGrant{
 		ServiceSID: options.ServiceSID,
 	}
 }
 
-// AddGrant ...
+// AddGrant appends a given grant to the current AccessToken.
 func (token *AccessToken) AddGrant(grant Grant) {
 	token.Grants = append(token.Grants, grant)
 }
 
-// ToJWT ...
+// ToJWT converts the given AccessToken attributes into a properly encoded and signed JWT.
 func (token *AccessToken) ToJWT() (string, error) {
 	now := time.Now()
 	method := jwt.SigningMethodHS256
@@ -121,12 +121,12 @@ func (token *AccessToken) String() string {
 	return t
 }
 
-// GetKey ...
+// GetKey returns the string identifier for the current grant.
 func (grant ChatGrant) GetKey() string {
 	return "chat"
 }
 
-// GetPayload ...
+// GetPayload generates the full custom payload for the current grant.
 func (grant ChatGrant) GetPayload() map[string]string {
 	payload := make(map[string]string)
 
