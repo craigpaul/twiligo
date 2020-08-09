@@ -17,12 +17,8 @@ func TestCanGenerateAccessTokenWithEmptyGrants(t *testing.T) {
 	identity := "unique_identity"
 	secret := RandomString(32)
 
-	token := twiligo.NewAccessToken(twiligo.NewAccessTokenOptions{
-		AccountSID:    accountSID,
-		Identity:      &identity,
-		SigningKeySID: signingKeySID,
-		Secret:        secret,
-		TTL:           ttl,
+	token := twiligo.NewAccessToken(accountSID, signingKeySID, secret, twiligo.NewAccessTokenOptions{
+		Identity: &identity,
 	})
 
 	jwtToken, err := token.ToJWT()
@@ -46,12 +42,8 @@ func TestCanGenerateAccessTokenWithChatGrant(t *testing.T) {
 	identity := "unique_identity"
 	secret := RandomString(32)
 
-	token := twiligo.NewAccessToken(twiligo.NewAccessTokenOptions{
-		AccountSID:    accountSID,
-		Identity:      &identity,
-		SigningKeySID: signingKeySID,
-		Secret:        secret,
-		TTL:           ttl,
+	token := twiligo.NewAccessToken(accountSID, signingKeySID, secret, twiligo.NewAccessTokenOptions{
+		Identity: &identity,
 	})
 
 	serviceSID := "ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"

@@ -19,7 +19,10 @@ type AccessToken struct {
 
 // ChatGrant represents a specific type of Grant that is necessary to use Twilio's Programmable Chat.
 type ChatGrant struct {
-	ServiceSID *string
+	EndpointID        *string
+	DeploymentRoleSID *string
+	PushCredentialSID *string
+	ServiceSID        *string
 }
 
 // Grant represents a type of permission that can be attached to an AccessToken.
@@ -30,33 +33,43 @@ type Grant interface {
 
 // NewAccessTokenOptions represents the possible options that can be provided to a new AccessToken.
 type NewAccessTokenOptions struct {
-	AccountSID    string
-	Identity      *string
-	SigningKeySID string
-	Secret        string
-	TTL           int
+	Identity *string
+	TTL      *int
 }
 
 // NewChatGrantOptions represents the possible options that can be provided to a new ChatGrant.
 type NewChatGrantOptions struct {
-	ServiceSID *string
+	EndpointID        *string
+	DeploymentRoleSID *string
+	PushCredentialSID *string
+	ServiceSID        *string
 }
 
 // NewAccessToken creates a new AccessToken with the given options.
-func NewAccessToken(options NewAccessTokenOptions) AccessToken {
+func NewAccessToken(accountSID, signingKeySID, secret string, options NewAccessTokenOptions) AccessToken {
+	ttl := options.TTL
+
+	if ttl == nil {
+		defaultTTL := 3600
+		ttl = &defaultTTL
+	}
+
 	return AccessToken{
-		AccountSID:    options.AccountSID,
+		AccountSID:    accountSID,
 		Identity:      options.Identity,
-		SigningKeySID: options.SigningKeySID,
-		Secret:        options.Secret,
-		TTL:           options.TTL,
+		SigningKeySID: signingKeySID,
+		Secret:        secret,
+		TTL:           *ttl,
 	}
 }
 
 // NewChatGrant creates a new ChatGrant with the given options.
 func NewChatGrant(options NewChatGrantOptions) ChatGrant {
 	return ChatGrant{
-		ServiceSID: options.ServiceSID,
+		EndpointID:        options.EndpointID,
+		DeploymentRoleSID: options.DeploymentRoleSID,
+		PushCredentialSID: options.PushCredentialSID,
+		ServiceSID:        options.ServiceSID,
 	}
 }
 
@@ -132,6 +145,18 @@ func (grant ChatGrant) GetPayload() map[string]string {
 
 	if grant.ServiceSID != nil {
 		payload["service_sid"] = *grant.ServiceSID
+	}
+
+	if grant.EndpointID != nil {
+		payload["endpoint_id"] = *grant.EndpointID
+	}
+
+	if grant.DeploymentRoleSID != nil {
+		payload["deployment_role_sid"] = *grant.DeploymentRoleSID
+	}
+
+	if grant.PushCredentialSID != nil {
+		payload["push_credential_sid"] = *grant.PushCredentialSID
 	}
 
 	return payload
