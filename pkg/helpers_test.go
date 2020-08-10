@@ -1,6 +1,7 @@
 package twiligo_test
 
 import (
+	"math/rand"
 	"net/http"
 
 	twiligo "github.com/craigpaul/twiligo/pkg"
@@ -23,4 +24,16 @@ func NewTestTwilio(fn RoundTripFunc) *twiligo.Twilio {
 
 func (fn RoundTripFunc) RoundTrip(req *http.Request) (*http.Response, error) {
 	return fn(req), nil
+}
+
+func RandomString(length int) string {
+	letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+
+	random := make([]rune, length)
+
+	for index := range random {
+		random[index] = letters[rand.Intn(len(letters))]
+	}
+
+	return string(random)
 }

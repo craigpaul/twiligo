@@ -7,6 +7,7 @@ import (
 )
 
 const baseURL string = "https://api.twilio.com/2010-04-01"
+const chatBaseURL string = "https://chat.twilio.com/v2"
 const proxyBaseURL string = "https://proxy.twilio.com/v1"
 
 // Exception represents an exception / bad response from the Twilio REST API.
@@ -61,6 +62,10 @@ func (twilio *Twilio) post(req *http.Request) (*http.Response, error) {
 
 func (twilio *Twilio) delete(req *http.Request) (*http.Response, error) {
 	return twilio.HTTPClient.Do(req)
+}
+
+func (twilio *Twilio) chatURL(resource string) string {
+	return chatBaseURL + "/" + resource
 }
 
 func (twilio *Twilio) proxyURL(resource string) string {
