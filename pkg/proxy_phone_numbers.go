@@ -43,14 +43,14 @@ type ProxyPhoneNumberCapabilities struct {
 }
 
 // AddPhoneNumberToProxyService attaches a phone number to the given proxy service in Twilio.
-func (twilio *Twilio) AddPhoneNumberToProxyService(service string, options AddPhoneNumberToProxyServiceOptions) (*ProxyPhoneNumber, error) {
+func (twilio *Twilio) AddPhoneNumberToProxyService(serviceSID string, options AddPhoneNumberToProxyServiceOptions) (*ProxyPhoneNumber, error) {
 	params, err := query.Values(options)
 
 	if err != nil {
 		return nil, err
 	}
 
-	resource := "Services/" + service + "/PhoneNumbers"
+	resource := "Services/" + serviceSID + "/PhoneNumbers"
 
 	req, err := http.NewRequest(http.MethodPost, twilio.proxyURL(resource), strings.NewReader(params.Encode()))
 
