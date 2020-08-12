@@ -57,6 +57,8 @@ func (twilio *Twilio) get(req *http.Request) (*http.Response, error) {
 }
 
 func (twilio *Twilio) post(req *http.Request) (*http.Response, error) {
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
 	return twilio.HTTPClient.Do(req)
 }
 
