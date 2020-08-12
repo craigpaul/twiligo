@@ -61,6 +61,11 @@ func TestWillMakeRequestToAddPhoneNumberToExistingProxyServiceSuccessfully(t *te
 			t.Fail()
 		}
 
+		if req.Header.Get("Content-Type") != "application/x-www-form-urlencoded" {
+			t.Logf("Incorrect content-type header supplied, expecting [%s], but received [%s]", "application/x-www-form-urlencoded", req.Header.Get("Content-Type"))
+			t.Fail()
+		}
+
 		return &http.Response{
 			Body:       ioutil.NopCloser(bytes.NewBufferString(addedPhoneNumberToServiceResponse)),
 			StatusCode: http.StatusCreated,

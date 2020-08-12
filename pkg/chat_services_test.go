@@ -80,6 +80,11 @@ func TestWillMakeRequestToCreateNewChatServiceSuccessfully(t *testing.T) {
 			t.Fail()
 		}
 
+		if req.Header.Get("Content-Type") != "application/x-www-form-urlencoded" {
+			t.Logf("Incorrect content-type header supplied, expecting [%s], but received [%s]", "application/x-www-form-urlencoded", req.Header.Get("Content-Type"))
+			t.Fail()
+		}
+
 		body, _ := ioutil.ReadAll(req.Body)
 		params, _ := url.ParseQuery(string(body))
 
