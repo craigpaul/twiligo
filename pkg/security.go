@@ -13,15 +13,23 @@ import (
 
 // CheckSignature checks that the X-Twilio-Signature header on a request matches the expected signature defined by GenerateSignature.
 func (twilio *Twilio) CheckSignature(r *http.Request, baseURL string) (bool, error) {
-	err := r.ParseForm()
+	var values url.Values
 
-	if err != nil {
-		return false, err
+	if r.Method == "POST" {
+		err := r.ParseForm()
+
+		if err != nil {
+			return false, err
+		}
+
+		values = r.PostForm
+	} else {
+		values = r.URL.Query()
 	}
 
 	uri := baseURL + r.URL.String()
 
-	expected, err := twilio.GenerateSignature(uri, r.PostForm)
+	expected, err := twilio.GenerateSignature(uri, values)
 
 	if err != nil {
 		return false, err
