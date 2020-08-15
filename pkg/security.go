@@ -11,7 +11,7 @@ import (
 	"sort"
 )
 
-// CheckSignature ...
+// CheckSignature checks that the X-Twilio-Signature header on a request matches the expected signature defined by GenerateSignature.
 func (twilio *Twilio) CheckSignature(r *http.Request, baseURL string) (bool, error) {
 	err := r.ParseForm()
 
@@ -36,7 +36,7 @@ func (twilio *Twilio) CheckSignature(r *http.Request, baseURL string) (bool, err
 	return hmac.Equal(expected, []byte(actual)), nil
 }
 
-// GenerateSignature ...
+// GenerateSignature computes the Twilio signature for verifying the authenticity of a request. It is based on the specification at https://www.twilio.com/docs/security#validating-requests.
 func (twilio *Twilio) GenerateSignature(uri string, values url.Values) ([]byte, error) {
 	var buffer bytes.Buffer
 	var expected bytes.Buffer
