@@ -25,7 +25,7 @@ type ChatUser struct {
 	DateUpdated         time.Time `json:"date_updated"`
 	Links               struct {
 		UserChannels string `json:"user_channels"`
-		USerBindings string `json:"user_bindings"`
+		UserBindings string `json:"user_bindings"`
 	} `json:"links"`
 	URL string `json:"url"`
 }
