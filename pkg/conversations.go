@@ -9,8 +9,8 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// CreateNewConversationOptions are all of the options that can be provided to a CreateNewConversation call.
-type CreateNewConversationOptions struct {
+// ConversationOptions are all of the options that can be provided to a CreateNewConversation call.
+type ConversationOptions struct {
 	FriendlyName        string    `url:",omitempty"`
 	DateCreated         time.Time `url:",omitempty"`
 	DateUpdated         time.Time `url:",omitempty"`
@@ -45,7 +45,7 @@ type Conversation struct {
 }
 
 // CreateNewConversation creates a new Conversation in Twilio with the provided options.
-func (twilio *Twilio) CreateNewConversation(options CreateNewConversationOptions) (*Conversation, error) {
+func (twilio *Twilio) CreateNewConversation(options ConversationOptions) (*Conversation, error) {
 	params, err := query.Values(options)
 
 	if err != nil {
@@ -71,6 +71,47 @@ func (twilio *Twilio) CreateNewConversation(options CreateNewConversationOptions
 	decoder := json.NewDecoder(res.Body)
 
 	if res.StatusCode != http.StatusCreated {
+		err = new(Exception)
+
+		decoder.Decode(err)
+
+		return nil, err
+	}
+
+	response := new(Conversation)
+
+	decoder.Decode(&response)
+
+	return response, nil
+}
+
+// UpdateConversation ...
+func (twilio *Twilio) UpdateConversation(conversationSID string, options ConversationOptions) (*Conversation, error) {
+	params, err := query.Values(options)
+
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, twilio.conversationURL("Conversations/"+conversationSID), strings.NewReader(params.Encode()))
+
+	if err != nil {
+		return nil, err
+	}
+
+	req.SetBasicAuth(twilio.credentials())
+
+	res, err := twilio.post(req)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer res.Body.Close()
+
+	decoder := json.NewDecoder(res.Body)
+
+	if res.StatusCode != http.StatusOK {
 		err = new(Exception)
 
 		decoder.Decode(err)
