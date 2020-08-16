@@ -6,9 +6,12 @@ import (
 	"time"
 )
 
-const baseURL string = "https://api.twilio.com/2010-04-01"
-const chatBaseURL string = "https://chat.twilio.com/v2"
-const proxyBaseURL string = "https://proxy.twilio.com/v1"
+const (
+	baseURL             string = "https://api.twilio.com/2010-04-01"
+	chatBaseURL         string = "https://chat.twilio.com/v2"
+	conversationBaseURL string = "https://conversations.twilio.com/v1"
+	proxyBaseURL        string = "https://proxy.twilio.com/v1"
+)
 
 // Exception represents an exception / bad response from the Twilio REST API.
 type Exception struct {
@@ -68,6 +71,10 @@ func (twilio *Twilio) delete(req *http.Request) (*http.Response, error) {
 
 func (twilio *Twilio) chatURL(resource string) string {
 	return chatBaseURL + "/" + resource
+}
+
+func (twilio *Twilio) conversationURL(resource string) string {
+	return conversationBaseURL + "/" + resource
 }
 
 func (twilio *Twilio) proxyURL(resource string) string {
