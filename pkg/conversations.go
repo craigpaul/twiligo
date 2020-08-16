@@ -125,3 +125,34 @@ func (twilio *Twilio) UpdateConversation(conversationSID string, options Convers
 
 	return response, nil
 }
+
+// DeleteConversation ...
+func (twilio *Twilio) DeleteConversation(conversationSID string) error {
+	req, err := http.NewRequest(http.MethodDelete, twilio.conversationURL("Conversations/"+conversationSID), nil)
+
+	if err != nil {
+		return err
+	}
+
+	req.SetBasicAuth(twilio.credentials())
+
+	res, err := twilio.delete(req)
+
+	if err != nil {
+		return nil
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusNoContent {
+		decoder := json.NewDecoder(res.Body)
+
+		err = new(Exception)
+
+		decoder.Decode(err)
+
+		return err
+	}
+
+	return nil
+}
