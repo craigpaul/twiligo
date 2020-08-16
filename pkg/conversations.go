@@ -9,7 +9,7 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// CreateNewConversationOptions ...
+// CreateNewConversationOptions are all of the options that can be provided to a CreateNewConversation call.
 type CreateNewConversationOptions struct {
 	FriendlyName        string    `url:",omitempty"`
 	DateCreated         time.Time `url:",omitempty"`
@@ -21,7 +21,7 @@ type CreateNewConversationOptions struct {
 	ClosedTimer         string    `url:"Timers.Closed,omitempty"`
 }
 
-// Conversation ...
+// Conversation represents a Twilio conversation between two or more connected participants.
 type Conversation struct {
 	SID                 string    `json:"sid"`
 	AccountSID          string    `json:"account_sid"`
@@ -44,7 +44,7 @@ type Conversation struct {
 	URL string `json:"url"`
 }
 
-// CreateNewConversation ...
+// CreateNewConversation creates a new Conversation in Twilio with the provided options.
 func (twilio *Twilio) CreateNewConversation(options CreateNewConversationOptions) (*Conversation, error) {
 	params, err := query.Values(options)
 
