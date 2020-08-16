@@ -85,7 +85,7 @@ func (twilio *Twilio) CreateNewConversation(options ConversationOptions) (*Conve
 	return response, nil
 }
 
-// UpdateConversation ...
+// UpdateConversation will update an existing conversation in Twilio based on the provided identifier and options.
 func (twilio *Twilio) UpdateConversation(conversationSID string, options ConversationOptions) (*Conversation, error) {
 	params, err := query.Values(options)
 
@@ -126,7 +126,7 @@ func (twilio *Twilio) UpdateConversation(conversationSID string, options Convers
 	return response, nil
 }
 
-// DeleteConversation ...
+// DeleteConversation will completely remove the conversation matching the given identifier from within Twilio.
 func (twilio *Twilio) DeleteConversation(conversationSID string) error {
 	req, err := http.NewRequest(http.MethodDelete, twilio.conversationURL("Conversations/"+conversationSID), nil)
 
