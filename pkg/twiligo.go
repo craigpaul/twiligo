@@ -2,7 +2,9 @@ package twiligo
 
 import (
 	"net/http"
+	"net/url"
 	"path"
+	"strings"
 	"time"
 )
 
@@ -55,17 +57,45 @@ func (twilio *Twilio) credentials() (string, string) {
 	return twilio.AccountSID, twilio.AuthToken
 }
 
-func (twilio *Twilio) get(req *http.Request) (*http.Response, error) {
+func (twilio *Twilio) get(resource string, values *url.Values) (*http.Response, error) {
+	req, err := http.NewRequest(http.MethodGet, resource, nil)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if values != nil {
+		req.URL.RawQuery = values.Encode()
+	}
+
+	req.SetBasicAuth(twilio.credentials())
+
 	return twilio.HTTPClient.Do(req)
 }
 
-func (twilio *Twilio) post(req *http.Request) (*http.Response, error) {
+func (twilio *Twilio) post(resource string, values url.Values) (*http.Response, error) {
+	req, err := http.NewRequest(http.MethodPost, resource, strings.NewReader(values.Encode()))
+
+	if err != nil {
+		return nil, err
+	}
+
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
+	req.SetBasicAuth(twilio.credentials())
+
 	return twilio.HTTPClient.Do(req)
 }
 
-func (twilio *Twilio) delete(req *http.Request) (*http.Response, error) {
+func (twilio *Twilio) delete(resource string) (*http.Response, error) {
+	req, err := http.NewRequest(http.MethodDelete, resource, nil)
+
+	if err != nil {
+		return nil, err
+	}
+
+	req.SetBasicAuth(twilio.credentials())
+
 	return twilio.HTTPClient.Do(req)
 }
 

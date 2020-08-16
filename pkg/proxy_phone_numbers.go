@@ -3,7 +3,6 @@ package twiligo
 import (
 	"encoding/json"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/google/go-querystring/query"
@@ -50,17 +49,7 @@ func (twilio *Twilio) AddPhoneNumberToProxyService(serviceSID string, options Ad
 		return nil, err
 	}
 
-	resource := "Services/" + serviceSID + "/PhoneNumbers"
-
-	req, err := http.NewRequest(http.MethodPost, twilio.proxyURL(resource), strings.NewReader(params.Encode()))
-
-	if err != nil {
-		return nil, err
-	}
-
-	req.SetBasicAuth(twilio.credentials())
-
-	res, err := twilio.post(req)
+	res, err := twilio.post(twilio.proxyURL("Services/"+serviceSID+"/PhoneNumbers"), params)
 
 	if err != nil {
 		return nil, err
@@ -87,17 +76,7 @@ func (twilio *Twilio) AddPhoneNumberToProxyService(serviceSID string, options Ad
 
 // RemovePhoneNumberFromProxyService remove the given IncomingPhoneNumber from the given ProxyService within Twilio.
 func (twilio *Twilio) RemovePhoneNumberFromProxyService(serviceSID, phoneNumberSID string) error {
-	resource := "Services/" + serviceSID + "/PhoneNumbers/" + phoneNumberSID
-
-	req, err := http.NewRequest(http.MethodDelete, twilio.proxyURL(resource), nil)
-
-	if err != nil {
-		return err
-	}
-
-	req.SetBasicAuth(twilio.credentials())
-
-	res, err := twilio.delete(req)
+	res, err := twilio.delete(twilio.proxyURL("Services/" + serviceSID + "/PhoneNumbers/" + phoneNumberSID))
 
 	if err != nil {
 		return nil

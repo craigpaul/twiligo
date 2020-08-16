@@ -3,7 +3,6 @@ package twiligo
 import (
 	"encoding/json"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/google/go-querystring/query"
@@ -72,15 +71,7 @@ func (twilio *Twilio) CreateNewChatService(name string) (*ChatService, error) {
 		return nil, err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, twilio.chatURL("Services"), strings.NewReader(params.Encode()))
-
-	if err != nil {
-		return nil, err
-	}
-
-	req.SetBasicAuth(twilio.credentials())
-
-	res, err := twilio.post(req)
+	res, err := twilio.post(twilio.chatURL("Services"), params)
 
 	if err != nil {
 		return nil, err

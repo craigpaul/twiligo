@@ -70,23 +70,13 @@ type PhoneNumberType int
 func (twilio *Twilio) GetAvailablePhoneNumbers(country string, number PhoneNumberType, options GetAvailablePhoneNumberOptions) ([]*AvailablePhoneNumber, error) {
 	resource := country + "/" + number.String()
 
-	req, err := http.NewRequest(http.MethodGet, twilio.url("AvailablePhoneNumbers/"+resource+".json"), nil)
-
-	if err != nil {
-		return nil, err
-	}
-
-	req.SetBasicAuth(twilio.credentials())
-
 	params, err := query.Values(options)
 
 	if err != nil {
 		return nil, err
 	}
 
-	req.URL.RawQuery = params.Encode()
-
-	res, err := twilio.get(req)
+	res, err := twilio.get(twilio.url("AvailablePhoneNumbers/"+resource+".json"), &params)
 
 	if err != nil {
 		return nil, err

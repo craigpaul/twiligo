@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"strings"
 
 	dates "github.com/craigpaul/twiligo/internal"
 	"github.com/google/go-querystring/query"
@@ -95,15 +94,7 @@ func (twilio *Twilio) CreateNewIncomingPhoneNumber(options CreateNewIncomingPhon
 		return nil, errors.New("Missing required parameter PhoneNumber or AreaCode")
 	}
 
-	req, err := http.NewRequest(http.MethodPost, twilio.url("IncomingPhoneNumbers.json"), strings.NewReader(params.Encode()))
-
-	if err != nil {
-		return nil, err
-	}
-
-	req.SetBasicAuth(twilio.credentials())
-
-	res, err := twilio.post(req)
+	res, err := twilio.post(twilio.url("IncomingPhoneNumbers.json"), params)
 
 	if err != nil {
 		return nil, err
@@ -130,15 +121,7 @@ func (twilio *Twilio) CreateNewIncomingPhoneNumber(options CreateNewIncomingPhon
 
 // DeleteIncomingPhoneNumber will release an existing IncomingPhoneNumber from Twilio.
 func (twilio *Twilio) DeleteIncomingPhoneNumber(phoneNumberSID string) error {
-	req, err := http.NewRequest(http.MethodDelete, twilio.url("IncomingPhoneNumbers/"+phoneNumberSID+".json"), nil)
-
-	if err != nil {
-		return err
-	}
-
-	req.SetBasicAuth(twilio.credentials())
-
-	res, err := twilio.delete(req)
+	res, err := twilio.delete(twilio.url("IncomingPhoneNumbers/" + phoneNumberSID + ".json"))
 
 	if err != nil {
 		return nil

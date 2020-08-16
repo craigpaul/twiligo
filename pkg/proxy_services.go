@@ -3,7 +3,6 @@ package twiligo
 import (
 	"encoding/json"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/google/go-querystring/query"
@@ -71,15 +70,7 @@ func (twilio *Twilio) CreateNewProxyService(name string, options CreateNewProxyS
 
 	params.Add("UniqueName", name)
 
-	req, err := http.NewRequest(http.MethodPost, twilio.proxyURL("Services"), strings.NewReader(params.Encode()))
-
-	if err != nil {
-		return nil, err
-	}
-
-	req.SetBasicAuth(twilio.credentials())
-
-	res, err := twilio.post(req)
+	res, err := twilio.post(twilio.proxyURL("Services"), params)
 
 	if err != nil {
 		return nil, err

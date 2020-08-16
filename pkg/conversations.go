@@ -3,7 +3,6 @@ package twiligo
 import (
 	"encoding/json"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/google/go-querystring/query"
@@ -52,15 +51,7 @@ func (twilio *Twilio) CreateNewConversation(options ConversationOptions) (*Conve
 		return nil, err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, twilio.conversationURL("Conversations"), strings.NewReader(params.Encode()))
-
-	if err != nil {
-		return nil, err
-	}
-
-	req.SetBasicAuth(twilio.credentials())
-
-	res, err := twilio.post(req)
+	res, err := twilio.post(twilio.conversationURL("Conversations"), params)
 
 	if err != nil {
 		return nil, err
@@ -93,15 +84,7 @@ func (twilio *Twilio) UpdateConversation(conversationSID string, options Convers
 		return nil, err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, twilio.conversationURL("Conversations/"+conversationSID), strings.NewReader(params.Encode()))
-
-	if err != nil {
-		return nil, err
-	}
-
-	req.SetBasicAuth(twilio.credentials())
-
-	res, err := twilio.post(req)
+	res, err := twilio.post(twilio.conversationURL("Conversations/"+conversationSID), params)
 
 	if err != nil {
 		return nil, err
@@ -128,15 +111,7 @@ func (twilio *Twilio) UpdateConversation(conversationSID string, options Convers
 
 // DeleteConversation will completely remove the conversation matching the given identifier from within Twilio.
 func (twilio *Twilio) DeleteConversation(conversationSID string) error {
-	req, err := http.NewRequest(http.MethodDelete, twilio.conversationURL("Conversations/"+conversationSID), nil)
-
-	if err != nil {
-		return err
-	}
-
-	req.SetBasicAuth(twilio.credentials())
-
-	res, err := twilio.delete(req)
+	res, err := twilio.delete(twilio.conversationURL("Conversations/" + conversationSID))
 
 	if err != nil {
 		return nil
