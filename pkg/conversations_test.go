@@ -269,3 +269,51 @@ func TestWillHandleErrorResponsesWhenMakingRequestToUpdateConversation(t *testin
 		t.Fail()
 	}
 }
+
+func TestCanDeleteExistingConversationSuccessfully(t *testing.T) {
+	twilio := NewTestTwilio(func(req *http.Request) *http.Response {
+		expected := "Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+		if strings.Contains(req.URL.Path, expected) == false {
+			t.Logf("Incorrect URL supplied, expecting URL to contain [%s], but received [%s]", expected, req.URL.Path)
+			t.Fail()
+		}
+
+		if req.Header.Get("Authorization") == "" {
+			t.Log("Missing authorization credentials, they should be supplied via the Authorization header")
+			t.Fail()
+		}
+
+		return &http.Response{
+			Body:       ioutil.NopCloser(bytes.NewBufferString(``)),
+			StatusCode: http.StatusNoContent,
+			Header:     make(http.Header),
+		}
+	})
+
+	err := twilio.DeleteConversation("CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+
+	if err != nil {
+		t.Logf("Error was incorrectly returned, was not expecting the following error: %s", err)
+		t.Fail()
+	}
+}
+
+func TestWillHandleErrorResponsesWhenMakingRequestToDeleteExistingConversation(t *testing.T) {
+	twilio := NewTestTwilio(func(req *http.Request) *http.Response {
+		return &http.Response{
+			Body:       ioutil.NopCloser(bytes.NewBufferString(errorDeletingResourceResponse)),
+			StatusCode: http.StatusNotFound,
+			Header:     make(http.Header),
+		}
+	})
+
+	err := twilio.DeleteConversation("CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+
+	expected := "The request resource was not found"
+
+	if err.Error() != expected {
+		t.Logf("Incorrect error returned, expected [%s], but received [%s]", expected, err)
+		t.Fail()
+	}
+}

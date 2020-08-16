@@ -58,7 +58,7 @@ const errorCreatingIncomingPhoneNumberResponse = `{
 	"status": 400
 }`
 
-const errorDeletingIncomingPhoneNumberResponse = `{
+const errorDeletingResourceResponse = `{
 	"code": 20404,
 	"message": "The request resource was not found",
 	"more_info": "https://www.twilio.com/docs/errors/20404",
@@ -223,7 +223,7 @@ func TestCanDeleteExistingIncomingPhoneNumberSuccessfully(t *testing.T) {
 func TestWillHandleErrorResponsesWhenMakingRequestToDeleteExistingIncomingNumber(t *testing.T) {
 	twilio := NewTestTwilio(func(req *http.Request) *http.Response {
 		return &http.Response{
-			Body:       ioutil.NopCloser(bytes.NewBufferString(errorDeletingIncomingPhoneNumberResponse)),
+			Body:       ioutil.NopCloser(bytes.NewBufferString(errorDeletingResourceResponse)),
 			StatusCode: http.StatusNotFound,
 			Header:     make(http.Header),
 		}
