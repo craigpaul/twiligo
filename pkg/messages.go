@@ -31,10 +31,10 @@ const (
 
 // CreateNewSMSMessageOptions are all of the options that can be provided to a CreateNewSMSMessage call.
 type CreateNewSMSMessageOptions struct {
-	Attempt             int    `url:"Attempt"`
-	From                string `url:"From"`
-	MessagingServiceSID string `url:"MessagingServiceSid"`
-	StatusCallback      string `url:"StatusCallback"`
+	Attempt             int    `url:"Attempt,omitempty"`
+	From                string `url:"From,omitempty"`
+	MessagingServiceSID string `url:"MessagingServiceSid,omitempty"`
+	StatusCallback      string `url:"StatusCallback,omitempty"`
 }
 
 // Message represents any given type of message from Twilio.
