@@ -8,7 +8,7 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// ...
+// This constant is used to represent the direction that a particular Message was sent.
 const (
 	Inbound MessageDirection = iota
 	OutboundAPI
@@ -16,7 +16,7 @@ const (
 	OutboundReply
 )
 
-// ...
+// This constant is used to represent the status of a particular Message.
 const (
 	Accepted MessageStatus = iota
 	Queued
@@ -29,7 +29,7 @@ const (
 	Received
 )
 
-// CreateNewSMSMessageOptions ...
+// CreateNewSMSMessageOptions are all of the options that can be provided to a CreateNewSMSMessage call.
 type CreateNewSMSMessageOptions struct {
 	Attempt             int    `url:"Attempt"`
 	From                string `url:"From"`
@@ -37,7 +37,7 @@ type CreateNewSMSMessageOptions struct {
 	StatusCallback      string `url:"StatusCallback"`
 }
 
-// Message ...
+// Message represents any given type of message from Twilio.
 type Message struct {
 	SID                 string             `json:"sid"`
 	AccountSID          string             `json:"account_sid"`
@@ -63,13 +63,13 @@ type Message struct {
 	URI string `json:"uri"`
 }
 
-// MessageDirection ...
+// MessageDirection is used to define the direction that a particular Message was sent.
 type MessageDirection int
 
-// MessageStatus ...
+// MessageStatus is used to define the current status of a particular Message.
 type MessageStatus int
 
-// CreateNewSMSMessage ...
+// CreateNewSMSMessage sends an SMS message through Twilio using the given parameters.
 func (twilio *Twilio) CreateNewSMSMessage(to, body string, options CreateNewSMSMessageOptions) (*Message, error) {
 	params, err := query.Values(options)
 
