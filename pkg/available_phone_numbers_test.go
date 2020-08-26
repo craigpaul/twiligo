@@ -36,7 +36,7 @@ const okResponse = `{
 
 const notFoundResponse = `{
 	"status": 404,
-	"message": "The requested resource was not found"	
+	"message": "The requested resource was not found"
 }`
 
 func TestWillMakeRequestToGetAvailableLocalPhoneNumbersSuccessfully(t *testing.T) {
@@ -204,23 +204,5 @@ func TestWillHandleErrorResponsesWhenMakingRequestToGetAvailablePhoneNumbers(t *
 	if err.Error() != expected {
 		t.Logf("Incorrect error returned, expected [%s], but received [%s]", expected, err)
 		t.Fail()
-	}
-}
-
-func TestWillConvertGivenNumberTypeAndCountryToMatchingPhoneNumberTypeToPrevent404ErrorsThroughTwilioAPI(t *testing.T) {
-	cases := map[string]map[twiligo.PhoneNumberType]twiligo.PhoneNumberType{
-		"CA": {twiligo.Mobile: twiligo.Local},
-		"US": {twiligo.Mobile: twiligo.Local},
-		"FR": {twiligo.Mobile: twiligo.Mobile, twiligo.Local: twiligo.Local},
-	}
-
-	for country, values := range cases {
-		for given, expected := range values {
-			numberType := twiligo.GetPhoneNumberType(int(given), country)
-
-			if numberType != expected {
-				t.Logf("Incorrect number type returned, expected [%s], but received [%s]", expected, numberType)
-			}
-		}
 	}
 }
